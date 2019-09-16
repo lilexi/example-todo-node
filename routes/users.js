@@ -1,5 +1,7 @@
+const user = require('./dbConnected')
 var express = require("express");
 var router = express.Router();
+
 
 /* GET users listing. */
 router.get("/", function(req, res, next) {
@@ -8,7 +10,9 @@ router.get("/", function(req, res, next) {
 
 const MongoClient = require("mongodb").MongoClient;
 const uri =
-  "mongodb+srv://lilexi:testM0ng0@cluster0-iwb70.gcp.mongodb.net/test?retryWrites=true&w=majority";
+  `mongodb+srv://${user.username}:${user.password}@cluster0-iwb70.gcp.mongodb.net/test?retryWrites=true&w=majority`;
+
+  console.log(uri);
 const client = new MongoClient(
   uri,
   { useUnifiedTopology: true, useNewUrlParser: true },
