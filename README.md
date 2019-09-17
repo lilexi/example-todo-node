@@ -3,4 +3,4 @@
 
 React + Redux + Node + Mongodb atlas
 
-:octocat: [Frontend](https://github.com/LilExi/example-todo)
+:octocat: [Frontend](https://github.com/LilExi/example-todo-node)
