@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # user ignore
-/routes/dbConnected.js
+/config/secret.key.js
