@@ -20,12 +20,13 @@ module.exports = {
               if (err) next(err);
               else
                 res.json({
-                  status: "success",
+                  status: "Success",
                   message: "User added successfully!",
                   data: {
                     name: result.name,
                     email: result.email,
-                    password: result.password
+                    password: result.password,
+                    status: 200
                   }
                 });
             }
@@ -34,7 +35,7 @@ module.exports = {
           res.json({
             status: "Error",
             message: "A user with such email already exist!",
-            data: null
+            data: { status: 500 }
           });
         }
       }
@@ -45,22 +46,24 @@ module.exports = {
       if (err) {
         next(err);
       } else {
-        if (bcrypt.compareSync(req.body.password, userInfo.password)) {
-          const token = jwt.sign(
-            { id: userInfo._id },
-            req.app.get("secretKey"),
-            { expiresIn: "1h" }
-          );
-          res.json({
-            status: "success",
-            message: "user found!!!",
-            data: { user: userInfo, token: token }
-          });
+        if (userInfo !== null) {
+          if (bcrypt.compareSync(req.body.password, userInfo.password)) {
+            const token = jwt.sign(
+              { id: userInfo._id },
+              req.app.get("secretKey"),
+              { expiresIn: "1h" }
+            );
+            res.json({
+              status: "Success",
+              message: "User found!",
+              data: { user: userInfo, token: token, status: 200 }
+            });
+          }
         } else {
           res.json({
-            status: "error",
-            message: "Invalid email/password!!!",
-            data: null
+            status: "Error",
+            message: "Invalid email/password!",
+            data: { status: 500 }
           });
         }
       }
