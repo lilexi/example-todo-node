@@ -14,7 +14,9 @@ module.exports = {
             {
               name: req.body.name,
               email: req.body.email,
-              password: req.body.password
+              password: req.body.password,
+              level: 1,
+              exp: 0
             },
             (err, result) => {
               if (err) next(err);
@@ -26,6 +28,8 @@ module.exports = {
                     name: result.name,
                     email: result.email,
                     password: result.password,
+                    level: result.level,
+                    exp: result.exp,
                     status: 200
                   }
                 });
@@ -41,6 +45,7 @@ module.exports = {
       }
     });
   },
+
   authenticate: function(req, res, next) {
     userModel.findOne({ email: req.body.email }, function(err, userInfo) {
       if (err) {
@@ -68,5 +73,18 @@ module.exports = {
         }
       }
     });
+  },
+
+  verify: function (req, res, next) {
+    userModel.findOne({_id: req.body.userId}, (err, userInfo) => {
+      if (err) next(err);
+      else {
+        if (userInfo !== null) {
+          res.json({data: userInfo})
+        } else {
+          res.json({status: "Error", message: "Invalid token", verify: false})
+        }
+      }
+    })
   }
 };

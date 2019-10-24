@@ -19,7 +19,15 @@ const UserSchema = new Schema({
     type: String,
     trim: true,
     required: true
-  }
+  },
+  level: {
+    type: Number,
+    trim: true
+  },
+  exp: {
+    type: Number,
+    trim: true,
+  } 
 });
 
 // hash user password before saving into database

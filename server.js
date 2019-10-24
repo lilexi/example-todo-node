@@ -30,11 +30,10 @@ app.get("/", function(req, res) {
 app.use("/users", users);
 
 // private route
-// app.use("/home", validateUser, home);
+app.use("/home", validateUser, users);
 
-// eslint-disable-next-line no-unused-vars
 function validateUser(req, res, next) {
-  jwt.verify(req.headers["x-access-token"], req.app.get("secretKey"), function(
+  jwt.verify(req.body.token, req.app.get("secretKey"), function(
     err,
     decoded
   ) {
@@ -60,7 +59,7 @@ app.use(function(err, req, res) {
   console.log(req.body);
 
   if (err.status === 404) res.status(404).json({ message: "Not found" });
-  else res.status(500).json({ message: "Something looks wrong :( !!!" });
+  else res.status(500).json({ message: "Something looks wrong :( !" });
 });
 
 app.listen(3001, function() {
