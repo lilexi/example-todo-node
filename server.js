@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const users = require("./routes/users");
+const todos = require("./routes/todos");
 const bodyParser = require("body-parser");
 const mongoose = require("./config/db.connected"); //database configuration
 var jwt = require("jsonwebtoken");
@@ -31,14 +32,12 @@ app.use("/users", users);
 
 // private route
 app.use("/home", validateUser, users);
+app.use("/todo", validateUser, todos);
 
 function validateUser(req, res, next) {
-  jwt.verify(req.body.token, req.app.get("secretKey"), function(
-    err,
-    decoded
-  ) {
+  jwt.verify(req.body.token, req.app.get("secretKey"), function(err, decoded) {
     if (err) {
-      res.json({ status: "error", message: err.message, data: null });
+      res.json({ status: "error", message: err.message, data: "" });
     } else {
       // add user id to request
       req.body.userId = decoded.id;

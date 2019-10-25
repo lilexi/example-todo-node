@@ -75,16 +75,20 @@ module.exports = {
     });
   },
 
-  verify: function (req, res, next) {
-    userModel.findOne({_id: req.body.userId}, (err, userInfo) => {
+  verify: function(req, res, next) {
+    userModel.findOne({ _id: req.body.userId }, (err, userInfo) => {
       if (err) next(err);
       else {
         if (userInfo !== null) {
-          res.json({data: userInfo})
+          res.json({ data: userInfo });
         } else {
-          res.json({status: "Error", message: "Invalid token", verify: false})
+          res.json({
+            status: "Error",
+            message: "Invalid token",
+            verify: false
+          });
         }
       }
-    })
+    });
   }
 };
